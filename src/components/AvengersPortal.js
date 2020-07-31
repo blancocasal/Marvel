@@ -5,6 +5,7 @@ import ConsultAvengersCenter from "./ConsultAvengersCenter";
 import FiltersUser from "./FiltersUser";
 
 function AvengersPortal() {
+  const [resultApiMarvel, setResultApiMarvel] = useState([]);
   const [resultFilterUser, setResultFilterUser] = useState();
   const [findUser, setFindUser] = useState("");
 
@@ -12,12 +13,19 @@ function AvengersPortal() {
     <div>
       <Row>
         <Col xs="12">
-          <Header findUser={findUser} setFindUser={setFindUser} />
+          <Header
+            setResultApiMarvel={setResultApiMarvel}
+            findUser={findUser}
+            setFindUser={setFindUser}
+          />
           <FiltersUser
             resultFilterUser={resultFilterUser}
             setResultFilterUser={setResultFilterUser}
           />
           <ConsultAvengersCenter
+            findUser={findUser}
+            resultApiMarvel={resultApiMarvel}
+            setResultApiMarvel={setResultApiMarvel}
             resultFilterUser={resultFilterUser}
             setResultFilterUser={setResultFilterUser}
           />

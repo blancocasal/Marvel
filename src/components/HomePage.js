@@ -1,6 +1,7 @@
 import React from "react";
 import { Row } from "reactstrap";
 import { Link } from "react-router-dom";
+import App from "../App.css";
 
 function HomePage() {
   return (

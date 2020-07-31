@@ -8,30 +8,30 @@ import {
   InputGroup,
 } from "reactstrap";
 import descarga from "../img/descarga.png";
-import ConsultAvengersCenter from "./ConsultAvengersCenter";
 
 function Header(props) {
-  const [resultApi, setResultApi] = useState("");
+  const setResultApiMarvel = props.setResultApiMarvel;
 
   //Destructuring find User for Props
   const findUser = props.findUser;
   const setFindUser = props.setFindUser;
   const UrlApi =
-    "https://gateway.marvel.com/v1/public/characters?apikey=95d098cc93eae74d936deca5018acd1c";
+    "https://gateway.marvel.com/v1/public/characters?limit=100&apikey=95d098cc93eae74d936deca5018acd1c";
 
   const handleClick = () => {
-    resultFindUser();
+    resultFindUser(findUser);
+    //
   };
 
   const changeFind = (e) => {
-    setFindUser({ value: e.target.value });
+    const result = e.target.value;
+    setFindUser(result);
   };
 
-  const resultFindUser = async () => {
-    const result = await fetch(`${UrlApi}&nameStartsWith=${findUser.value}`);
+  const resultFindUser = async (texto) => {
+    const result = await fetch(`${UrlApi}&nameStartsWith=${texto}`);
     const resultJson = await result.json();
-    setResultApi(resultJson);
-    console.log(resultJson);
+    setResultApiMarvel(resultJson.data.results);
   };
 
   return (

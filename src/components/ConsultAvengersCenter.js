@@ -12,11 +12,20 @@ import rightMarvel from "../img/rightMarvel.jpg";
 import { Link } from "react-router-dom";
 
 function ConsultAvengersCenter(props) {
-  const [resultApiMarvel, setresultApiMarvel] = useState([]);
   const [valueOffSet, setValueOffSet] = useState(0);
 
-  //Destructuring Filter User for Props
+  const findUser = props.findUser;
+
+  //Destructuring State de Avengers para almacenar el Stado de Inicio cuando carga la página.
+  const resultApiMarvel = props.resultApiMarvel;
+  const setResultApiMarvel = props.setResultApiMarvel;
+
+  //Destructuring Filter User for Props de la página de Filtros
   const resultFilterUser = props.resultFilterUser;
+
+  //Destructuring Find User for Props de la página de Header
+  const resultApiFindUser = props.resultApiFindUser;
+  const setResultApiFindUser = props.setResultApiFindUser;
 
   //Start Pagination
 
@@ -61,7 +70,7 @@ function ConsultAvengersCenter(props) {
     );
     const resultJson = await result.json();
     console.log(resultJson);
-    setresultApiMarvel(resultJson.data.results);
+    setResultApiMarvel(resultJson.data.results);
   };
 
   function orderComics() {
@@ -75,7 +84,7 @@ function ConsultAvengersCenter(props) {
       }
       return 0;
     });
-    setresultApiMarvel(resultConcat);
+    setResultApiMarvel(resultConcat);
   }
   function orderNameAsc() {
     const resultConcat = [...resultApiMarvel];
@@ -87,7 +96,7 @@ function ConsultAvengersCenter(props) {
       }
       return 0;
     });
-    setresultApiMarvel(resultConcat);
+    setResultApiMarvel(resultConcat);
   }
 
   function orderId() {
@@ -100,7 +109,7 @@ function ConsultAvengersCenter(props) {
       }
       return 0;
     });
-    setresultApiMarvel(resultConcat);
+    setResultApiMarvel(resultConcat);
   }
 
   return (
@@ -117,72 +126,81 @@ function ConsultAvengersCenter(props) {
                   <th>Series</th>
                 </tr>
               </thead>
-              {resultApiMarvel
-                ? resultApiMarvel.map((value) => (
-                    <tbody>
-                      <tr>
-                        <th scope="row">{value.id}</th>
-                        <td>{value.name}</td>
-                        <td>{value.comics.available}</td>
-                        <td>{value.series.available}</td>
-                        <td></td>
-                        <Link
-                          to={`InfoAvenger/${value.id}`}
-                          className="btn btn-danger mt-1 d-flex justify-content-center"
-                        >
-                          + Info
-                        </Link>
-                      </tr>
-                    </tbody>
-                  ))
-                : "Hola"}
+              {resultApiMarvel ? (
+                resultApiMarvel.map((value) => (
+                  <tbody>
+                    <tr>
+                      <th scope="row">{value.id}</th>
+                      <td>{value.name}</td>
+                      <td>{value.comics.available}</td>
+                      <td>{value.series.available}</td>
+                      <td></td>
+                      <Link
+                        to={`InfoAvenger/${value.id}`}
+                        className="btn btn-danger mt-1 d-flex justify-content-center"
+                      >
+                        + Info
+                      </Link>
+                    </tr>
+                  </tbody>
+                ))
+              ) : (
+                <Spinner
+                  style={{ width: "3rem", height: "3rem" }}
+                  type="grow"
+                />
+              )}
             </Table>
           ) : (
             <Spinner style={{ width: "3rem", height: "3rem" }} type="grow" />
           )}
-          <Pagination
-            aria-label="Page navigation example"
-            className="d-flex justify-content-center"
-          >
-            <PaginationItem>
-              <PaginationLink
-                first
-                href="#"
-                onClick={() => {
-                  startPagination();
-                }}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                onClick={() => {
-                  restPagination();
-                }}
-              >
-                Anterior
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                onClick={() => {
-                  sumPagination();
-                }}
-              >
-                Siguiente
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                last
-                href="#"
-                onClick={() => {
-                  finishPagination();
-                }}
-              />
-            </PaginationItem>
-          </Pagination>
+          {findUser ? (
+            <div></div>
+          ) : (
+            <Pagination
+              aria-label="Page navigation example"
+              className="d-flex justify-content-center"
+            >
+              <PaginationItem>
+                <PaginationLink
+                  first
+                  href="#"
+                  onClick={() => {
+                    startPagination();
+                  }}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#"
+                  onClick={() => {
+                    restPagination();
+                  }}
+                >
+                  Anterior
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#"
+                  onClick={() => {
+                    sumPagination();
+                  }}
+                >
+                  Siguiente
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  last
+                  href="#"
+                  onClick={() => {
+                    finishPagination();
+                  }}
+                />
+              </PaginationItem>
+            </Pagination>
+          )}
         </Col>
         <Col xs="4" className="mt-5 d-flex justify-content-center">
           <img src={rightMarvel} width="150" height="800" />
